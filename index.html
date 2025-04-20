@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">Expense Tracker</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-green-100 p-4 rounded-lg">
+                        <h2 class="text-lg font-semibold text-green-800">Total Balance</h2>
+                        <p class="text-2xl font-bold text-green-600" id="balance">₹0.00</p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded-lg">
+                        <h2 class="text-lg font-semibold text-blue-800">Income</h2>
+                        <p class="text-2xl font-bold text-blue-600" id="income">₹0.00</p>
+                    </div>
+                    <div class="bg-red-100 p-4 rounded-lg">
+                        <h2 class="text-lg font-semibold text-red-800">Expenses</h2>
+                        <p class="text-2xl font-bold text-red-600" id="expense">₹0.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Monthly Analysis</h2>
+                    <select id="monthSelector" class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <!-- Months will be added dynamically -->
+                    </select>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Daily Transactions</h3>
+                        <div id="lineChart" class="w-full h-80"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Category Distribution</h3>
+                        <div id="pieChart" class="w-full h-80"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Transaction Form -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Add New Transaction</h2>
+                <form id="transactionForm" class="space-y-4">
+                    <!-- Transaction Type Buttons -->
+                    <div class="flex space-x-4 mb-4">
+                        <button type="button" id="incomeBtn" class="flex-1 py-2 px-4 rounded-lg border-2 border-blue-500 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-colors transaction-type-btn active">
+                            Income
+                        </button>
+                        <button type="button" id="expenseBtn" class="flex-1 py-2 px-4 rounded-lg border-2 border-red-500 text-red-500 font-semibold hover:bg-red-500 hover:text-white transition-colors transaction-type-btn">
+                            Expense
+                        </button>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="description">Description</label>
+                        <input type="text" id="description" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="amount">Amount (₹)</label>
+                        <input type="number" id="amount" min="0" step="0.01" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="date">Date</label>
+                        <input type="date" id="date" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-gray-700" for="category">Category</label>
+                            <button type="button" id="addCategoryBtn" class="text-blue-500 hover:text-blue-600 text-sm font-semibold">
+                                + Add New Category
+                            </button>
+                        </div>
+                        <select id="category" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                            <option value="">Select a category</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
+                        Add Transaction
+                    </button>
+                </form>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Transaction History</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-2 text-left">Description</th>
+                                <th class="px-4 py-2 text-left">Category</th>
+                                <th class="px-4 py-2 text-left">Amount</th>
+                                <th class="px-4 py-2 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionList">
+                            <!-- Transactions will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-96">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Add New Category</h3>
+            <form id="categoryForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2" for="newCategory">Category Name</label>
+                    <input type="text" id="newCategory" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                </div>
+                <div class="flex space-x-4">
+                    <button type="button" id="cancelCategory" class="flex-1 py-2 px-4 border rounded-lg text-gray-600 hover:bg-gray-100 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
+                        Add Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p class="text-center">Made by <a href="https://youtube.com/@iamIzh">iamIzh</a></p>
+    <script src="script.js"></script>
+</body>
+</html>

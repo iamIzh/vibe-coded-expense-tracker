@@ -1,0 +1,83 @@
+/* Custom animations and transitions */
+.transaction-item {
+    transition: all 0.3s ease;
+}
+
+.transaction-item:hover {
+    transform: translateX(5px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Input focus styles */
+input:focus, select:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Custom animation for new transactions */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.new-transaction {
+    animation: slideIn 0.3s ease forwards;
+}
+
+/* Amount colors */
+.amount-positive {
+    color: #059669;
+}
+
+.amount-negative {
+    color: #DC2626;
+}
+
+/* Delete button hover effect */
+.delete-btn {
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #EF4444;
+    color: white;
+}
+
+/* Transaction type buttons */
+.transaction-type-btn {
+    transition: all 0.3s ease;
+}
+
+.transaction-type-btn.active.income-btn {
+    background-color: #3B82F6;
+    color: white;
+}
+
+.transaction-type-btn.active.expense-btn {
+    background-color: #EF4444;
+    color: white;
+} 
